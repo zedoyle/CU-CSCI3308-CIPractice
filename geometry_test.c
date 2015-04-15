@@ -91,6 +91,17 @@ START_TEST(test_2d_dist)
 }
 END_TEST
 
+START_TEST(test_area)
+{
+	coord_2d_t a;
+	coord_2d_t b;
+	coord_2d_t c;
+	a.x = a.y = b.y = c.x = 0;
+	b.x = c.y = 15;
+	ck_assert(coord_2d_area_triangle(&a,&b,&c));
+}
+END_TEST
+
 /* coord_2d_midpoint Test */
 START_TEST(test_2d_midpoint)
 {
@@ -172,11 +183,30 @@ Suite* coord_2d_suite(void)
 
 }
 
+/* coord_2d triangle test Suite */
+Suite* coord_area_suite(void)
+{
+
+    /* Create Suite */
+    Suite* s = suite_create("coord_area");
+
+    /* Setup Test Cases */
+    TCase* tc_area = tcase_create("coord_area_test_1");
+    tcase_add_test(tc_area, test_area);
+
+    /* Add Cases to Suite */
+    suite_add_tcase(s, tc_area);
+
+    /* Return Suite */
+    return s;
+
+}
+
 /* main: run test suites and set exit status */
 int main(void){
 
     int failed = 0;
-    Suite* s = coord_2d_suite();
+    Suite* s = coord_area_suite();
     SRunner* sr = srunner_create(s);
     srunner_run_all(sr, CK_VERBOSE);
     failed = srunner_ntests_failed(sr);
